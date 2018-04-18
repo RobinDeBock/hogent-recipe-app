@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server",
     "deploy-backend": "git subtree push --prefix recipeapp/backend heroku-backend master",
-    "build-frontend": "cd recipeapp/frontend && ng build --prod && cp recipeapp/frontend/dist",
+    "build-frontend": "cd recipeapp/frontend && ng build --prod && copyfiles recipeapp/frontend/dist/* serve-frontend/www",
     "deploy-frontend": "npm run build-frontend && git subtree push --prefix serve-frontend heroku master"
   },
   "author": {
@@ -25,5 +25,8 @@
     "connect": "^3.6.5",
     "serve-static": "^1.13.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "copyfiles": "^2.0.0"
+  }
 }
