@@ -4,7 +4,8 @@
   "description": "Slides for the Web4 course at HoGent",
   "homepage": "http://www.github.com/pieter-hogent/",
   "scripts": {
-    "start": "node server"
+    "start": "node server",
+    "deploy-backend": "git subtree push --prefix recipeapp/backend heroku master"
   },
   "author": {
     "name": "Pieter Van Der Helst",
