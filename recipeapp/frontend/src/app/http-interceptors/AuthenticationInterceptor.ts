@@ -7,6 +7,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { AuthenticationService } from '../user/authentication.service';
 import { Injectable } from '@angular/core';
+import { BACKEND_URL } from '../../environments/environment';
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
@@ -17,12 +18,13 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (this.authService.token.length) {
       // Clone the request to add the new header
-      const clonedRequest = req.clone({
+      let clonedRequest = req.clone({
         headers: req.headers.set(
           'Authorization',
           `Bearer ${this.authService.token}`
-        )
+        ),
       });
+
       //   // Clone the request and set the new header in one step.
       //   const authReq = req.clone({
       //     setHeaders: { Authorization: `Bearer ${this.authService.token}` }

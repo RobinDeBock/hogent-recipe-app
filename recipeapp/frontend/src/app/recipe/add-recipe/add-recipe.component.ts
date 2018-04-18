@@ -19,8 +19,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AddRecipeComponent implements OnInit {
   public readonly unitTypes = ['', 'Liter', 'Gram', 'Tbsp'];
-  private recipe: FormGroup;
-  public errorMsg: string;
+  recipe: FormGroup;
+  errorMsg: string;
 
   constructor(
     private fb: FormBuilder,

@@ -5,7 +5,9 @@
   "homepage": "http://www.github.com/pieter-hogent/",
   "scripts": {
     "start": "node server",
-    "deploy-backend": "git subtree push --prefix recipeapp/backend heroku master"
+    "deploy-backend": "git subtree push --prefix recipeapp/backend heroku-backend master",
+    "build-frontend": "cd recipeapp/frontend && ng build --prod && cp recipeapp/frontend/dist",
+    "deploy-frontend": "npm run build-frontend && git subtree push --prefix serve-frontend heroku master"
   },
   "author": {
     "name": "Pieter Van Der Helst",
