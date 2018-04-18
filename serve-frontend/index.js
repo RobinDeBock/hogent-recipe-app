@@ -10,5 +10,5 @@ app.listen(process.env.PORT, function() {
 });
 
 //Serve www folder
-app.use(express.static(__dirname + '/www/recipeapp/frontend/dist'));
-app.use('*', express.static(__dirname + '/www/recipeapp/frontend/dist/index.html'));
+app.use(express.static(__dirname + '/www'));
+app.use('*', express.static(__dirname + '/www/index.html'));
