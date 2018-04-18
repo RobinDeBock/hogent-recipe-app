@@ -1,0 +1,299 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>0 - Introduction</title>
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/sky.css">
+
+	<!-- pieter overrides -->
+	<link rel="stylesheet" href="webapps.css">
+	<link rel="stylesheet" href="css/introduction.css">
+	<link rel="stylesheet" href="plugin/codestepper/codestepper.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+
+	<div class="reveal">
+
+		<div class="slides">
+			<section>
+				<h3>What are we going to do?</h3>
+				<ul>
+					<li class="fragment">Single Page Application (SPA)</li>
+					<li class="fragment">Angular 5.2 (º 10 januari 2018)</li>
+					<li class="fragment">open source, made by Google</li>
+					<li class="fragment">other similar frameworks exist: React (Facebook), Vue (Alibaba)</li>
+				</ul>
+			</section>
+			<section>
+				<table class='leerlijnen'>
+					<tr>
+						<td class='applicatie'>Applicatieontwikkeling</td>
+					</tr>
+					<tr>
+						<td class='netwerken'>Netwerken en systeembeheer</td>
+					</tr>
+					<tr>
+						<td class='gegevens'>Gegevensbehandeling en beheer</td>
+					</tr>
+					<tr>
+						<td class='probleemanalyse'>Probleemanalyserend denken en Business</td>
+					</tr>
+					<tr>
+						<td class='communicatie'>Communicatie</td>
+					</tr>
+					<tr>
+						<td class='pod'>Probleemonderzoekend en oplossend denken</td>
+					</tr>
+					<tr>
+						<td class='individuele'>Professionele en individuele groei</td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<table class='leerlijnen'>
+					<tr>
+						<th>1e jaar</th>
+						<th>2e jaar</th>
+						<th>3e jaar</th>
+					</tr>
+					<tr>
+						<td rowspan='9' class='communicatie'>Algemene vorming</td>
+						<td rowspan='3' class='communicatie'>Algemene vorming</td>
+						<td rowspan='2' class='communicatie'>Algemene vorming</td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td class='applicatie'>KP mobiele applicaties</td>
+					</tr>
+					<tr>
+						<td rowspan='3' class='applicatie'>KP Programmeren</td>
+						<td rowspan='2' class='netwerken'>KP systeem- en netwerkbeheer</td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td rowspan='2' class='pod'>KP e-Business</td>
+
+					</tr>
+					<tr></tr>
+					<tr>
+						<td rowspan='2' class='netwerken'>KP netwerken</td>
+						<td rowspan='2' class='gegevens'>KP Mainframe applicaties en -beheer</td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td colspan='3' class='individuele'>Projecten, iTalent, Stage, Bachelorproef</td>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h3>Applicatieontwikkeling</h3>
+				De student kan kwaliteitsvolle IT-oplossingen efficiënt en autonoom ontwerpen, ontwikkelen, documenteren en testen, rekening
+				houdend met nieuwe ontwikkelingen en toepassingsdomeinen.
+
+				<img src="img/leerlijn.png" alt="">
+
+			</section>
+			<section>
+				<h3>Why Angular? (I love React!)</h3>
+				<ul>
+					<li class="fragment">first of all: it doesn' t (really) matter</li>
+					<li class="fragment">learning modern javascript (framework) is what matters</li>
+					<li class="fragment">neither will exist (in it's current form) in 5 years anyway</li>
+					<li class="fragment">still, which one to chose to teach a modern javascript framework?</li>
+					<li class="fragment">vdab: # jobs for programmers in Gent +60km mentioning (Angular | React)</li>
+				</ul>
+			</section>
+			<section>
+				<h3>Why Angular? (I love React!)</h3>
+				<!-- <canvas data-chart="line" data-chart-src="angular_react.csv"> -->
+				<canvas data-chart="line">
+					<!-- prettier-ignore -->
+					Month, April, May, June, July, August, September, October, November, December, Januari, Februari, March 
+					Angular, 231, 270, 294, 296, 241, 278, 303, 296, 311, 289, 288, 352
+					React, 51, 67, 87, 83, 63, 80, 90, 96, 107, 101, 92, 126
+				</canvas>
+
+				<iframe id="angular-react-chart" width="500px" , height="400px" data-chart></iframe>
+				<div>angular vs react</div>
+			</section>
+			<section>
+				<h3>angular vs other web</h3>
+				<!-- <canvas data-chart="line" data-chart-src="angular_react.csv"> -->
+				<canvas data-chart="line">
+						<!-- prettier-ignore -->
+						Month, April, May, June, July, August, September, October, November, December, Januari, Februari, March 
+						Angular, 231, 270, 294, 296, 241, 278, 303, 296, 311, 289, 288, 352
+						Spring, 127, 142, 154, 144, 120, 128, 150, 133, 127, 134, 153, 186
+						ASP, 213, 254, 322, 344, 269, 284, 301, 290, 288, 289, 289, 334
+						jQuery, 132, 169, 192, 179, 143, 156, 171, 169, 166, 151, 145, 180
+					</canvas>
+
+				<iframe id="angular-react-chart" width="500px" , height="400px" data-chart></iframe>
+				<div>angular vs spring vs asp vs jquery</div>
+			</section>
+
+
+			<section>
+				<h3>what are you going to do?</h3>
+				<ul>
+					<li class="fragment">((add chamilo link here))</li>
+					<li class="fragment">so: build a webapp by the end of week 11</li>
+					<li class="fragment">oral exam during week 12 or 13, where you get asked some questions about your webapp</li>
+					<li class="fragment">that's it, nothing during the exam period</li>
+				</ul>
+			</section>
+			<section>
+				<h3>examples</h3>
+				<ul>
+					<li class="fragment">some examples from your predecessors</li>
+					<li class="fragment">
+						<a href="https://frietkoten.gent">frietkoten</a>
+					</li>
+					<li class="fragment">
+						<a href="https://stark-forest-61204.herokuapp.com">drawing app</a>
+					</li>
+					<li class="fragment">
+						<a href="https://surveyymaster.herokuapp.com/">survey master</a>
+					</li>
+					<li class="fragment">(no guarantees these links will keep working, they passed the class)</li>
+				</ul>
+			</section>
+			<section>
+				<div class='fragment' code-step svg-step>
+					<svg id="svg" class="svg-section" width='100%' height='100%' preserveAspectRatio="xMidYMid" snapfile='img/angular_timeline.svg'>
+						<use xlink:href='plugin/codestepper/loaders.svg#myloader'></use>
+					</svg>
+				</div>
+			</section>
+			<section>
+				<h3>class</h3>
+				<ol>
+					<li class="fragment">introduction, Angular basics</li>
+					<li class="fragment">Typescript</li>
+					<li class="fragment">multiple components / services</li>
+					<li class="fragment">async (promises / observables)</li>
+					<li class="fragment">Node.js / Mongoose</li>
+					<li class="fragment">reactive forms</li>
+				</ol>
+			</section>
+			<section>
+				<ol start="7">
+					<li class="fragment">modules / angular routing</li>
+					<li class="fragment">users and authentication</li>
+					<li class="fragment">state management</li>
+					<li class="fragment">real time web</li>
+					<li class="fragment">deploy build online</li>
+					<li class="fragment">React</li>
+				</ol>
+			</section>
+
+			<section>
+				<h3>slides?</h3>
+				<ul>
+					<li>they are hosted on my github pages
+						<a href="https://pieter-hogent.github.io/web4/">https://pieter-hogent.github.io/web4/</a>
+					</li>
+					<li>slides, and the code from the slides etc., can all be found on my github
+						<a href="https://www.github.com/pieter-hogent/web4">https://www.github.com/pieter-hogent/web4</a>
+					</li>
+					<li>slides are in
+						<a href="https://revealjs.com/#/">Reveal.js</a> (with some custom plugins)
+						<ul>
+							<li>press ESC to navigate faster</li>
+							<li>you can't really print them</li>
+							<li>should work on touch devices</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<h3>software?</h3>
+				<ul>
+					<li>Visual Studio Code
+						<a href="https://code.visualstudio.com">https://code.visualstudio.com</a>
+					</li>
+					<li>Node.js v9.3.x
+						<a href="https://nodejs.org/en/">https://nodejs.org/en/</a>
+					</li>
+					<li>Angular CLI (v1.6+): "npm install -g @angular/cli"</li>
+					<li>Chrome extension:
+						<a href="https://augury.angular.io/">Augury</a>
+					</li>
+					<li>everything else we'll npm install as needed</li>
+				</ul>
+			</section>
+		</div>
+	</div>
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script> -->
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			controls: false,
+			slideNumber: true,
+			dependencies: [
+				{
+					src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+						hljs.initHighlightingOnLoad();
+
+						// during development, always start at last slide
+						var indices = Reveal.getIndices(document.getElementById('sectionID'));
+						// Reveal.slide(2); //Reveal.getTotalSlides());
+					}
+				},
+				{ src: 'plugin/chartjs/Chart.min.js' },
+				{ src: 'plugin/chartjs/csv2chart.js' },
+				{ src: 'plugin/fullscreen/fullscreen.js' },
+				{ src: 'plugin/codestepper/codestepper.js' }
+
+			],
+			chart: {
+				defaults: {
+					responsive: true,
+					global: {
+						title: { fontColor: "#FFF" },
+					},
+					legend: {
+						labels: { fontColor: "#FFF" },
+					},
+					scale: {
+						scaleLabel: { fontColor: "#000" },
+						gridLines: { color: "#FFF", zeroLineColor: "#000" },
+						ticks: { fontColor: "#000", beginAtZero: true },
+					}
+				},
+				line: { borderColor: ["rgba(20,220,220,.8)", "rgba(220,120,120,.8)", "rgba(20,120,220,.8)"], "borderDash": [[5, 10], [0, 0]] },
+				bar: { backgroundColor: ["rgba(20,220,220,.8)", "rgba(220,120,120,.8)", "rgba(20,120,220,.8)"] },
+				pie: { backgroundColor: [["rgba(0,0,0,.8)", "rgba(220,20,20,.8)", "rgba(20,220,20,.8)", "rgba(220,220,20,.8)", "rgba(20,20,220,.8)"]] },
+				radar: { borderColor: ["rgba(20,220,220,.8)", "rgba(220,120,120,.8)", "rgba(20,120,220,.8)"] },
+			},
+		});
+
+	</script>
+	<script src="js/snap.svg.js"></script>
+</body>
+
+</html>

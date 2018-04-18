@@ -1,0 +1,794 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>forms</title>
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/sky.css">
+
+  <!-- pieter overrides -->
+  <link rel="stylesheet" href="webapps.css">
+  <link rel="stylesheet" href="plugin/codestepper/codestepper.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+
+<body>
+
+  <div class="reveal">
+
+    <div class="slides">
+      <section>
+        <h2>forms</h2>
+
+      </section>
+      <section>
+        <h3>forms</h3>
+        <ul>
+          <li class="fragment">forms have always been a big part of the web</li>
+          <li class="fragment">good form support provides client side validation, ways to display errors to the user and keeps track of the global
+            form state</li>
+          <li class="fragment">Angular has two ways of creating forms: template driven and reactive</li>
+
+        </ul>
+      </section>
+      <section>
+        <h3>template driven</h3>
+        <ul>
+          <li class="fragment">faster (easier) for simple scenario's</li>
+          <li class="fragment">very similar to how it was done in Angular 1</li>
+          <li class="fragment">uses two way data binding</li>
+          <li class="fragment">mainly created in the 'html', very little in the 'ts'</li>
+          <li class="fragment">a lot is done automatically, but this comes at the price of less flexibility</li>
+          <li class="fragment">asynchronous</li>
+          <li class="fragment">hard to unit test</li>
+        </ul>
+      </section>
+      <section>
+        <h3>reactive</h3>
+        <ul>
+          <li class="fragment">bit harder, but more flexible</li>
+          <li class="fragment">no data binding (immutable data model)</li>
+          <li class="fragment">mainly created in the 'ts', less in the 'html'</li>
+          <li class="fragment">reactive transformations are used easily (debounce, distinctUntilChanged, dynamically adding elements)</li>
+          <li class="fragment">synchronous</li>
+          <li class="fragment">unit testing is easier</li>
+        </ul>
+      </section>
+      <section>
+        <h3>reactive forms module</h3>
+        <div class='fragment' code-step>
+          <pre>app.module.ts<code data-noescape data-trim>
+import { <span highlight-steps='1+'>ReactiveFormsModule</span> } from '@angular/forms';</span>
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+imports: [
+  BrowserModule,
+  <span highlight-steps='1+'>ReactiveFormsModule</span>
+], ...
+                          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>just like with Http, we first need to include the proper module to our app.module</p>
+            <!-- <p show-steps='2'>this does more than just make some new classes / functions available, but to understand what's happening we have
+              to talk about directives</p> -->
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+      <section>
+        <h3>reactive forms</h3>
+        <ul>
+          <li class="fragment">reactive forms allow for a reactive programming style, favoring the explicit management of the data flow between
+            a non-UI
+            <i>data model</i> and a UI-oriented
+            <i>form model</i>
+          </li>
+          <li class="fragment">you create a tree of Angular FormControl objects in the component class, and bind them to native form elements
+            in the template
+          </li>
+          <li class="fragment">a FormControl is a class that tracks the value and the validation status of an individual control of a form</li>
+          <li class="fragment">let's look at an example</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>add recipe</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/add-recipe/add-recipe.component.ts<code data-noescape data-trim>
+export class AddRecipeComponent implements OnInit {
+  <span show-steps='2+'>private recipe: FormGroup;
+
+  ngOnInit() {
+    this.recipe = new <span highlight-steps='4'>FormGroup</span>({
+      name: new <span highlight-steps='3'>FormControl</span>('risotto')
+    })
+  }</span>
+};
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>lets create an add recipe component, using a reactive form</p>
+            <p show-steps='2'>we build our own FormGroup, with a FormControl for each control we wish to map</p>
+            <p show-steps='3'>we start with only an input field for the name of our recipe, so just one FormControl</p>
+            <p show-steps='4'>a form is always associated with a FormGroup, which contains FormControl's, FormGroup's and/or FormArray's</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>add recipe</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/add-recipe/add-recipe.component.ts<code data-noescape data-trim>
+&lt;form<span show-steps='2+'> [formGroup]='recipe'</span><span show-steps='6+'> (ngSubmit)='onSubmit()'</span>&gt;
+  &lt;h3&gt;add recipe&lt;/h3&gt;
+  &lt;div&gt;
+    &lt;label for='name_id'&gt;name:&lt;/label&gt;
+    &lt;input type='text' id='name_id'<span show-steps='3+'> formControlName='name'</span>&gt;
+  &lt;/div&gt;
+  &lt;button <span show-steps='6+'>type='submit'</span>&gt;add&lt;/button&gt;
+&lt;/form&gt; 
+<span show-steps='4+'>REMOVE {{ recipe.value | json }}</span>
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>now we need to link this to the html form</p>
+            <p show-steps='2'>the formGroup is a binding on the form</p>
+            <p show-steps='3'>and formControls are linked using the formControlName attribute directive</p>
+            <p show-steps='4'>for debugging purposes it's convenient to dump the value in the form itself</p>
+            <p show-steps='5'>
+              <a href="http://localhost:4200">let's try this out</a>
+            </p>
+            <p show-steps='6'>if we want the add button to work, we need to respond to the (ngSubmit) event</p>
+
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>reactive forms</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/add-recipe/add-recipe.component.ts<code data-noescape data-trim>
+export class AddRecipeComponent implements OnInit {
+  <span show-steps='2-3'>onSubmit() {
+    this.newRecipe.emit(new Recipe(this.recipe.value.name));
+  }</span>
+};
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>and then we need to add this onSubmit method</p>
+            <p show-steps='2'>we'll have to convert the formGroup.value to a recipe object before we can emit it</p>
+            <p show-steps='3'>
+              <a href="http://localhost:4200">let's try this out</a>
+            </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>directives</h3>
+        <ul>
+          <li>when I said Angular is all about components that was actually a lie, Angular is all about directives, and components
+            are one kind of directive</li>
+          <li>there are also structural directives, which start with a * (*ngFor, *ngIf, ...)</li>
+          <li>and then there are attribute directives, which work on an attribute of a tag (and not the tag itself, like components)</li>
+        </ul>
+      </section>
+      <section>
+        <h3>directives</h3>
+        <ul>
+          <li>so Angular builds a page by applying functions to tags / attributes and by expanding the structural directives</li>
+          <li>that's how this [formGroup] is applied, a standard html form obviously has no @Input attributes or something similar</li>
+          <li>but by including the ReactiveFormsModule, standard forms got this functionality added</li>
+        </ul>
+      </section>
+      <section>
+        <h3>reactive form validators</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/add-recipe/add-recipe.component.ts<code data-noescape data-trim>
+export class AddRecipeComponent implements OnInit {
+  ngOnInit() {
+    this.recipe = new FormGroup({
+      name: new FormControl('risotto'<span show-steps='2'>, Validators.required</span><span show-steps='3-4'>, 
+        [Validators.required, Validators.minLength(2)]</span><span show-steps='4'>, [ ... ]</span>)
+    })
+  }
+}
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>if you want to add validation, you have to explicitly include and add
+              <a href="https://angular.io/api/forms/Validators">Validators</a> functions</p>
+            <p show-steps='2'>Validators has many static functions defined which perform the validation, they correspond to the
+              <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation">standard HTML5 validators</a>
+            </p>
+            <p show-steps='3'>if you need multiple, simply pass an array of them</p>
+            <p show-steps='4'>you can also add async Validators (server side validation), I'll show an example when we add user authentication</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>validators</h3>
+        <div class='fragment' code-step>
+          <pre class='html'>src/app/add-recipe/add-recipe.component.html<code data-noescape data-trim>
+&lt;form [formGroup]='recipe' (ngSubmit)='onSubmit()'&gt;
+  &lt;h3&gt;add recipe&lt;/h3&gt;
+  &lt;div&gt;
+    &lt;label for='name_id'&gt;name:&lt;/label&gt;
+    &lt;input type='text' id='name_id' formControlName='name' <span show-steps='3+'>#spy</span>&gt;
+  &lt;/div&gt;
+  &lt;button type='submit'&gt;add&lt;/button&gt;
+&lt;/form&gt; 
+REMOVE {{ recipe.value | json }} {{ recipe.valid }}
+<span show-steps='3+'>{{ spy.className }}</span>
+<span show-steps='4-5'>in src/app/add-recipe/add-recipe.component.css
+    .ng-invalid:not(form) {
+      border-left: 5px solid #a94442 !important; 
+    }
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>if there are validators the FormControl will automatically check if it's valid on every change, and add css classes
+              to the control to signal this, which you can use to give feedback</p>
+
+            <p show-steps='2'>there are many variables to check whether a control has changed, is valid, ...</p>
+            <p show-steps='3'>let's add a variable and
+              <a href="http://localhost:4200/">see what this does</a>
+            </p>
+            <p show-steps='4'>you could add css based on these classes, for example add a green border to the left if it's valid</p>
+            <p show-steps='5'>
+              <a href="http://localhost:4200">let's try this out</a>
+            </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>ngControlStatus</h3>
+        <table class="reveal">
+          <tr>
+            <td>ng-valid</td>
+            <td>ng-invalid</td>
+            <td>does the content conform to the validators?</td>
+          </tr>
+          <tr>
+            <td>ng-pristine</td>
+            <td>ng-dirty</td>
+            <td>have the contents changed?</td>
+          </tr>
+          <tr>
+            <td>ng-untouched</td>
+            <td>ng-touched</td>
+            <td>has the user touched this?</td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <h3>validators</h3>
+        <div class='fragment' code-step>
+          <pre class='html'>src/app/add-recipe/add-recipe.component.html<code data-noescape data-trim>
+&lt;form [formGroup]='recipe' (ngSubmit)='onSubmit()'&gt;
+  &lt;h3&gt;add recipe&lt;/h3&gt;
+  &lt;div&gt;
+    &lt;label for='name_id'&gt;name:&lt;/label&gt;
+    &lt;input type='text' id='name_id' formControlName='name' &gt;
+  &lt;/div&gt;
+  <span show-steps='3+'>&lt;div *ngIf='recipe.get(&quot;name&quot;).errors?.required<span show-steps='4+'>
+      &amp;&amp; recipe.get(&quot;name&quot;).touched</span>' 
+    class='ui pointing red basic label'&gt;
+    error! this is required
+  &lt;/div&gt;</span>
+  &lt;button type='submit'&gt;add&lt;/button&gt;
+&lt;/form&gt; 
+REMOVE {{ recipe.value | json }} {{ recipe.valid }}
+<span show-steps='2+'>{{ recipe.get("name").errors | json}}</span>
+                          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>often you also need to show a proper error message</p>
+            <p show-steps='2'>whenever a validation error occurs, the FormControl.errors object contains those errors
+              <a href="http://localhost:4200">let's check this out</a>
+            </p>
+            <p show-steps='3'>so you can add div's which are shown based on these properties, using a *ngIf construct</p>
+            <p show-steps='4'>it's better to take touched state into account, you don't want to bombard your user with errors when she opens
+              a page</p>
+            <p show-steps='5'>
+              <a href="http://localhost:4200">let's try this out</a>
+            </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>formbuilder</h3>
+        <div class='fragment' code-step>
+          <pre class='javascript'>src/app/add-recipe/add-recipe.component.ts<code data-noescape data-trim>
+import { FormGroup, <span show-steps='1'>FormControl</span><span show-steps='2-4'>FormBuilder</span> } from '@angular/forms'; 
+
+export class AddRecipeComponent implements OnInit {<span show-steps='2-4'>
+  constructor(private fb: FormBuilder) { }
+  </span>
+  ngOnInit() {
+    this.recipe = <span show-steps='1-2'>new FormGroup</span><span show-steps='3-4'>this.fb.group</span>({
+      name: <span show-steps='1-2'>new FormControl(</span><span show-steps='3'>this.fb.control(</span><span show-steps='4'>[</span>'risotto'<span show-steps='1-3'>)</span><span show-steps='4'>]</span>
+    })
+  }
+}
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>there's an easier way to construct these FormGroups and controls, using a formbuilder</p>
+            <p show-steps='2'>inject the FormBuilder in the constructor</p>
+            <p show-steps='3'>and replace 'new FormGroup' with fb.group and 'new FormControl' with fb.control</p>
+            <p show-steps='4'>you can even remove the fb.control completely, and replace it with an array which holds all the arguments (default
+              value, validators, ...)</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>formarray</h3>
+        <ul>
+          <li class="fragment">until now reactive forms don't offer much template driven forms couldn't easily do too</li>
+          <li class="fragment">they really start to shine when you do more dynamic (complicated) stuff</li>
+          <li class="fragment">to illustrate this, lets expand our form so we can also fill in one or more ingredients</li>
+          <li class="fragment">as ingredients are filled, we'll dynamically create additional input fields using a FormArray</li>
+        </ul>
+      </section>
+      <section>
+        <h3>ingredient in the backend</h3>
+        <div class='fragment' code-step>
+          <pre>models/Ingredient.js<code data-noescape data-trim>
+let mongoose = require('mongoose');
+
+let IngredientSchema = new mongoose.Schema({
+    name: String,
+    amount: {type: Number, default: 0},
+    unit: String
+});
+mongoose.model('Ingredient', IngredientSchema);
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>before we can add this to our form, we need a better way to represent an ingredient</p>
+            <p show-steps='2'>similar to recipe schema, define the fields we need</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>recipe backend</h3>
+        <div class='fragment' code-step>
+          <pre>models/Recipe.js<code data-noescape data-trim>
+let mongoose = require('mongoose');
+
+let RecipeSchema = new mongoose.Schema({
+    name: String,
+    ingredients: <span show-steps='1'>[String]</span><span show-steps='2-3'>[{type: mongoose.Schema.Types.ObjectId, 
+      ref: 'Ingredient'}]</span>,
+    created: Date
+});
+
+mongoose.model('Recipe', RecipeSchema);
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>then we want to use this Ingredient model inside our Recipe</p>
+            <p show-steps='2'>instead of storing an array of strings, we'll store an array of these ingredient references</p>
+            <p show-steps='3'>we created some kind of relational model inside our nosql, we're responsible of keeping the relations in sync
+              ourselves
+            </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>ingredient backend</h3>
+        <div class='fragment' code-step>
+          <pre>models/Ingredient.js<code data-noescape data-trim>
+let mongoose = require('mongoose');
+
+let IngredientSchema = new mongoose.Schema({
+    name: String,
+    amount: {type: Number, default: 0},
+    unit: String
+});<span show-steps='2-3'>
+
+IngredientSchema.pre('remove', function (next) {
+  this.model('Recipe').update({}, 
+    { $pull: { ingredients: this._id } }, 
+    { safe: true, multi: true }, next);
+})
+</span>
+mongoose.model('Ingredient', IngredientSchema);
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>this means we need a way to remove an Ingredient from the Ingredient list of a Recipe when the Ingredient is
+              removed
+            </p>
+            <p show-steps='2'>mongoose provides 'hooks' to easily do this, let's add a 'pre remove' hook</p>
+            <p show-steps='3'>so whenever remove is called on an Ingredient, we'll remove it from the Recipe's list first, so it doesn't hold
+              a 'dangling reference'</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>backend routes</h3>
+        <div class='fragment' code-step>
+          <pre>routes/index.js<code data-noescape data-trim>
+router.get('/API/recipes/', function(req, res, next) {
+  let query = Recipe.find<span show-steps='1'>(function</span><span show-steps='2'>().populate('ingredients');
+  query.exec(function</span>(err, recipes) {
+    if (err) return next(err);
+    res.json(recipes);
+  })
+});
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>when we request the recipes, we want to have the real ingredients, not some mongoose object id's</p>
+            <p show-steps='2'>you do this by using mongoose's populate function, which will perform a kind of 'join'</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>backend routes</h3>
+        <div class='fragment' code-step>
+          <pre class='javascript'>routes/index.js<code data-noescape data-trim>
+router.post('/API/recipes/', function (req, res, next) {<span show-steps='3+'>
+  Ingredient.create(req.body.ingredients, function(err, ings) {
+    if (err) {
+      return next(err);
+    }</span>
+    let recipe = new Recipe(<span show-steps='2+'>{name: req.body.name, 
+      created: req.body.created}</span><span show-steps='1'>req.body</span>);<span show-steps='3+'>
+    recipe.ingredients = ings;</span>
+    recipe.save(function(err, post) {
+      if (err){<span show-steps='1-4'> return next(err); }</span><span show-steps='5+'>
+        Ingredient.remove({ _id: { $in: recipe.ingredients } });
+        return next(err);
+      }</span>
+      res.json(recipe);
+    });<span show-steps='3+'>
+  });</span>
+});
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>we have to update the code that adds a recipe too, simply auto converting req.body.ingredients won't work anymore</p>
+            <p show-steps='2'>so we'll ignore the ingredients when adding a recipe (since strings won't match the ObjectId type), and add them
+              separately
+            </p>
+            <p show-steps='3'>we'll do that first, and if adding the ingredients worked, set them as property to our created recipe before
+              we save it</p>
+            <p show-steps='4'>we're not done yet, what if adding the ingredients didn't give an error, but saving the recipe did? the database
+              would be stuck with some ingredients not referenced anywhere</p>
+            <p show-steps='5'>so remove the ingredients again if saving the recipe failed</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>backend routes</h3>
+        <div class='fragment' code-step>
+          <pre class='javascript'>routes/index.js<code data-noescape data-trim>
+router.post('/API/recipe/<span highlight-steps='2'>:recipe</span>/ingredients', 
+  function(req, res, next) {
+  <span highlight-steps='3'>let ing = new Ingredient(req.body);
+
+  ing.save</span>(function(err, ingredient) {
+    if (err) return next(err);
+
+    <span highlight-steps='4'>req.recipe.ingredients.push(ingredient);
+    req.recipe.save</span>(function(err, rec) {
+      if (err) return next(err);
+      <span highlight-steps='5'>res.json(ingredient);</span>
+    })
+  });
+});
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>let's add a route to add an ingredient to an existing recipe (adding ingredients without a recipe doesn't make
+              sense)
+            </p>
+            <p show-steps='2'>you need to know the recipe id if you want to add an ingredient</p>
+            <p show-steps='3'>then it's a two step process, create an ingredient and save it</p>
+            <p show-steps='4'>add that ingredient to the recipe's ingredient list, and save the recipe</p>
+            <p show-steps='5'>if both succeed return the saved ingredient</p>
+            <p show-steps='6'>our error handling is lacking, if saving the ingredient succeeded, and saving the recipe failed, you want to
+              remove it again (see previous slide)</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>backend routes</h3>
+        <div class='fragment' code-step>
+          <pre>routes/index.js<code data-noescape data-trim>
+router.delete('/API/recipe/:recipe', function(req, res) {
+  Ingredient.<span highlight-steps='2'>remove({ _id: {$in: req.recipe.ingredients }}</span>, 
+    function (err) {
+      if (err) return next(err);
+      req.recipe.remove(function(err) {
+        if (err) { return next(err); }   
+        res.json(req.recipe);
+      });
+    })
+})
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>when removing a recipe, we want to remove all the ingredients too</p>
+            <p show-steps='2'>you can loop and remove one by one, or you can use the $in to remove all matching id's</p>
+            <p show-steps='3'>now we have everything to test our routes in insomnia,
+              <a href="http://localhost:3000/API/recipes">let's try it out</a>
+            </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>Ingredient in Angular</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/ingredient/ingredient.model.ts<code data-noescape data-trim>
+export enum UnitType {
+  None,
+  Liter,
+  Gram,
+  Tbsp
+}
+export class IngredientUnit {
+    constructor(private _amount: number, 
+      private _unit: UnitType) {}
+    get amount(): number { return this._amount; }
+    get unit(): UnitType { return this._unit; }
+}
+            
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>we'll add an ingredient.model.ts to represent this ingredient</p>
+            <p show-steps='2'>I'll separate the amount and unit in its own class (for easier conversions later)</p>
+            <p show-steps='3'>and let's use an enum for the unittype itself, so you've used enums too</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>ingredient model</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/ingredient/ingredient.model.ts<code data-noescape data-trim>
+export class Ingredient {
+  private _id: string;
+  private _name: string;
+  private _ingredientunit: IngredientUnit;
+
+  constructor(name: string, amount?: number, unit?: UnitType ) {
+      this._name = name;
+      this._ingredientunit = 
+        new IngredientUnit(amount || 1, unit || UnitType.None);
+  }
+  // ...
+}
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>the ingredient model itself then has an id, name, and an ingredientunit</p>
+            <p show-steps='2'>a lot of getters and JSON converters are not shown here, but needed of course</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>recipe model</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/recipe/recipe.model.ts<code data-noescape data-trim>
+export class Recipe {
+    private _ingredients: Ingredient[];
+
+    constructor(name: string, 
+      ingredients?: Ingredient[], dateAdded?: Date) {
+        this._ingredients = ingredients || new Array<Ingredient>();
+    }
+    get ingredients(): Ingredient[] {
+        return this._ingredients;
+    }
+    addIngredient(ing: Ingredient) {
+        this._ingredients.push(ing);
+    }
+}
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>then we need to adapt the recipe.model.ts to use this ingredient model</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>ingredient component</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/ingredient/ingredient.component.html<code data-noescape data-trim>
+{{ingredient.amount}} {{ingredient.unit}} {{ingredient.name}}
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>the ingredient component now takes an ingredient as @Input(), and the html should show the three parts of an
+              ingredient
+            </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>recipe data service</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/recipe/recipe-data.service.ts<code data-noescape data-trim>
+@Injectable()
+export class RecipeDataService {
+  private readonly _appUrl = '/API/';
+
+  addIngredientToRecipe(ing: Ingredient, rec: Recipe): 
+    Observable&lt;Ingredient&gt; {
+      const theUrl = `${this._appUrl}/recipe/${rec.id}/ingredients`;
+      return this.http.post(theUrl, ing).pipe(map(Ingredient.fromJSON));
+  }
+}
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>the recipe service needs a new method to add ingredients to a recipe</p>
+            <p show-steps='2'>nothing new here, a post request where the response is converted to JSON</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>formarray</h3>
+        <ul>
+          <li class="fragment">finally, we're at our form, where we want to add one or more ingredients for a recipe, so we'll dynamically add
+            input fields as we need them</li>
+          <li class="fragment">this is done using a formarray</li>
+          <li class="fragment">you typically create a function which creates a formgroup with the inputs you want to repeat</li>
+          <li class="fragment">and then push such a formgroup into the formarray whenever you want new input controls</li>
+        </ul>
+      </section>
+      <section>
+        <h3>add ingredient form</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/add-recipe/add-recipe.component.ts<code data-noescape data-trim>
+<span show-steps='3'>public readonly unitTypes = ['', 'Liter', 'Gram', 'Tbsp'];</span>
+ngOnInit() {
+  this.recipe = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    ingredients: <span highlight-steps='2'>this.fb.array([ this.createIngredients() ])</span>
+  });
+}
+
+<span highlight-steps='1'>createIngredients(): FormGroup</span> {
+  return this.fb.group({
+    amount: [''],
+    unit: [''],
+    ingredientname: ['', [Validators.required, 
+      Validators.minLength(3)]]
+  });
+}
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>so we have a function that can create a formgroup</p>
+            <p show-steps='2'>and we call this function to initialize our array with one element</p>
+            <p show-steps='3'>we'll also add a member variable for our option list</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>add ingredient form</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/add-recipe/add-recipe.component.html<code data-noescape data-trim style='font-size:0.8em'>
+  &lt;div formArrayName='ingredients'<span show-steps='4-5'>
+    *ngFor='let item of recipe.get(&quot;ingredients&quot;).controls; 
+            let i = index'</span>&gt;
+    &lt;div<span show-steps='3'> formGroupName = '...'</span><span show-steps='4-5'> [formGroupName] = 'i'</span>&gt;
+      &lt;label for=&quot;ingredient_name&quot;&gt;ingredient:&lt;/label&gt;
+      &lt;div&gt;
+          &lt;input type=&quot;text&quot; id=&quot;ingredient_amount&quot;<span highlight-steps='2'> formControlName='amount'</span>&gt;
+          &lt;select id=&quot;ingredient_unittype&quot;<span highlight-steps='2'> formControlName='unit'</span>&gt;
+            &lt;option <span highlight-steps='5'>*ngFor='let type of unitTypes'</span> [value]='type'&gt;
+              {{type}}
+            &lt;/option&gt;
+          &lt;/select&gt;
+          &lt;input type=&quot;text&quot; id=&quot;ingredient_name&quot;<span highlight-steps='2'> formControlName='ingredientname'</span>&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>the first part of the form stays the same, then we create a new div where we will display the form array</p>
+            <p show-steps='2'>inside the array we'll display all the groups that were added, the groups themselves are nothing special, simply
+              hook up the formControlNames</p>
+            <p show-steps='3'>each group is in its own div, which needs a formGroupName, but now we can't just set a fixed name, we're an index
+              in an array</p>
+            <p show-steps='4'>so we'll add a loop over all 'ingredients' controls in the recipe formgroup</p>
+            <p show-steps='5'>note how we also simply loop over a property variable to create an option input field</p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>add ingredient form</h3>
+        <div class='fragment' code-step>
+          <pre>src/app/add-recipe/add-recipe.component.ts<code data-noescape data-trim>
+onSubmit() {
+  const recipe = new Recipe(this.recipe.value.name);
+  for (const ing of this.recipe.value.ingredients) {
+    <span highlight-steps='2'>if (ing.ingredientname.length > 2)</span> {
+      recipe.addIngredient(new Ingredient(ing.ingredientname, 
+        ing.amount, ing.unit ));
+    }
+  }
+  this.newRecipe.emit(recipe);
+}
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>back in our typescript file we need to adapt our onSubmit method too</p>
+            <p show-steps='2'>I explicitly check for a valid ingredientname, I don't want to include empty input fields</p>
+            <p show-steps='3'>we can't add more than one ingredient yet, but
+              <a href="http://localhost:4200">let's try this out</a>
+            </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>add ingredient form</h3>
+        <div class='fragment' code-step>
+          <pre class='typescript'>src/app/add-recipe/add-recipe.component.ts<code data-noescape data-trim>
+export class AddRecipeComponent implements OnInit {
+  <span highlight-steps='3'>get ingredients(): FormArray {
+    return &lt;FormArray&gt;this.recipe.get('ingredients');
+  }</span>
+
+  ngOnInit() {
+    this.ingredients.<span highlight-steps='4'>valueChanges
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe</span>(ingList => {
+        const lastElement = ingList[ingList.length - 1];
+       <span highlight-steps='5'> if ( lastElement.ingredientname &&
+          lastElement.ingredientname.length > 2 ) 
+          { this.ingredients.push(this.createIngredients()); }</span>
+      });
+  }
+          </code></pre>
+          <div class='samespot'>
+            <p show-steps='1'>we could just add a button in the form, and call createIngredients and add a FormGroup to the array as it's clicked</p>
+            <p show-steps='2'>but let's try something else, there is also change tracking available, we'll add a new line of input fields as
+              the previous one is filled</p>
+            <p show-steps='3'>first, add a convenience method to access the ingredients array inside the formgroup</p>
+            <p show-steps='4'>then subscribe to the valueChanges, with a debounceTime of 400ms</p>
+            <p show-steps='5'>and add a new set of input fields if the last ingredient is entered (has >2 chars)</p>
+            <p show-steps='6'>you probably want to add an 'else' and remove them again as they are cleared, see github for that</p>
+            </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>summary</h3>
+        <ul>
+          <li class="fragment">we've seen how to build reactive forms, template driven forms are still used and a good way to build forms too</li>
+          <li class="fragment">we've done validation and display error messages based on the state of our forms</li>
+          <li class="fragment">we've seen how to dynamically create forms, and respond to changes in the form</li>
+          <li class="fragment">there's still more, you can do server side validation too (we'll do that when we create users), and you can construct
+            custom validators, we'll see an example later as well</li>
+        </ul>
+      </section>
+      <script src="lib/js/head.min.js"></script>
+      <script src="js/reveal.js"></script>
+      <script>
+        // More info about config & dependencies:
+        // - https://github.com/hakimel/reveal.js#configuration
+        // - https://github.com/hakimel/reveal.js#dependencies
+        Reveal.initialize({
+          controls: false,
+          slideNumber: true,
+          dependencies: [
+            {
+              src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+
+                // during development, always start at last slide
+                var indices = Reveal.getIndices(document.getElementById('sectionID'));
+                // Reveal.slide(Reveal.getTotalSlides());
+              }
+            },
+            { src: 'plugin/codestepper/codestepper.js' }
+          ],
+        });
+      </script>
+</body>
+
+</html>
