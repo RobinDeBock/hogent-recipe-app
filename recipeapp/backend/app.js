@@ -7,8 +7,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 let passport = require('passport');
 require('dotenv').config();
-
-mongoose.connect('mongodb://localhost/recipedb');
+console.log(process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/recipedb');
 require('./models/Recipe');
 require('./models/Ingredient');
 require('./models/User');
