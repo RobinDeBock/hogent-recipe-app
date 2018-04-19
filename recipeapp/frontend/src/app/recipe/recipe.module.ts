@@ -34,7 +34,6 @@ const routes = [
     RecipeDetailComponent
   ],
   imports: [
-    HttpClientModule,
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes)
