@@ -8,6 +8,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { UserModule } from './user/user.module';
 import { BaseUrlInterceptor } from './http-interceptors/base-url.interceptors';
+import { authInterceptor } from './http-interceptors';
 
 export const httpInterceptorProviders = [
   {
@@ -27,7 +28,7 @@ export const httpInterceptorProviders = [
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, authInterceptor],
   bootstrap: [AppComponent]
 })
 export class AppModule {
