@@ -4,7 +4,7 @@ describe('add recipe', () => {
     });
 
     it('should be possible to add a recipe with one ingredient', () => {
-        (cy as any).login();
+        cy.login();
 
         cy.visit('recipe/add');
 
@@ -24,7 +24,7 @@ describe('add recipe', () => {
     });
 
     it('should be possible to add a recipe with multiple ingredients', () => {
-        (cy as any).login();
+        cy.login();
 
         cy.visit('recipe/add');
 
